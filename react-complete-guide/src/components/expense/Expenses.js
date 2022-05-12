@@ -1,5 +1,5 @@
 import "./Expenses.css";
-import Card from "../shared/Card";
+import Card from "../../shared/Card";
 import ExpenseItem from "./ExpenseItem";
 
 const Expenses = (props) => {
