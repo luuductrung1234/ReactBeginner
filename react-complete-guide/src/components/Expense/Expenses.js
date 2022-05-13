@@ -1,32 +1,20 @@
 import "./Expenses.css";
 import Card from "../../shared/Card";
 import ExpenseFilter from "./ExpenseFilter";
-import { useState } from "react";
 import ExpensesList from "./ExpensesList";
-import { getAllExpenses } from "../../services/expenseService";
 
-const Expenses = () => {
-  const [yearFilter, setYearFilter] = useState("2022");
-  const [expenses, setExpenses] = useState(
-    getAllExpenses({ year: yearFilter })
-  );
-
+const Expenses = (props) => {
   const expenseYearFilterChangeHandler = (selectedYear) => {
-    setYearFilter(selectedYear);
-    setExpenses([
-      ...getAllExpenses({
-        year: selectedYear,
-      }),
-    ]);
+    props.onChanged(selectedYear);
   };
 
   return (
     <Card className="expenses">
       <ExpenseFilter
-        selectedYear={yearFilter}
+        selectedYear={props.selectedYear}
         onYearFilterChange={expenseYearFilterChangeHandler}
       />
-      <ExpensesList expenses={expenses} />
+      <ExpensesList expenses={props.expenses} />
     </Card>
   );
 };

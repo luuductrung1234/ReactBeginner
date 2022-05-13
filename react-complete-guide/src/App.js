@@ -2,27 +2,37 @@ import { useState } from "react";
 import "./App.css";
 import Expenses from "./components/Expense/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
+import { getAllExpenses } from "./services/expenseService";
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [yearFilter, setYearFilter] = useState("2022");
+  const [expenses, setExpenses] = useState(getAllExpenses({ year: "2022" }));
 
   const newExpenseHandler = (_) => {
-    setIsLoading((currentState) => {
-      console.log("reloading: " + currentState + " -> " + true);
-      return true;
-    });
+    setExpenses([
+      ...getAllExpenses({
+        year: yearFilter,
+      }),
+    ]);
   };
-  const finishLoadExpenses = () => {
-    setIsLoading((currentState) => {
-      console.log("reloading: " + currentState + " -> " + false);
-      return false;
-    });
+
+  const loadExpensesHandler = (selectedYear) => {
+    setYearFilter(selectedYear);
+    setExpenses([
+      ...getAllExpenses({
+        year: selectedYear,
+      }),
+    ]);
   };
 
   return (
     <div>
       <NewExpense onNewExpense={newExpenseHandler} />
-      <Expenses onLoadingFinished={finishLoadExpenses} />
+      <Expenses
+        selectedYear={yearFilter}
+        expenses={expenses}
+        onChanged={loadExpensesHandler}
+      />
     </div>
   );
 };
