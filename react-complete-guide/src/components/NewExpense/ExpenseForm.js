@@ -2,6 +2,9 @@ import { useState } from "react";
 import "./ExpenseForm.css";
 
 const ExpenseForm = (props) => {
+  const [titleValid, setTitleValid] = useState(true);
+  const [amountValid, setAmountValid] = useState(true);
+  const [dateValid, setDateValid] = useState(true);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   var today = new Date();
@@ -12,63 +15,68 @@ const ExpenseForm = (props) => {
       "-" +
       String(today.getDate()).padStart(2, "0")
   );
-  // const [expense, setExpense] = useState({
-  //   title: "",
-  //   amount: "",
-  //   date: "",
-  // });
 
   const titleChangeHandler = (event) => {
+    validateTitle(event.target.value);
     setTitle(event.target.value);
-    // setExpense((currentState) => {
-    //   return {
-    //     ...currentState,
-    //     title: event.target.value,
-    //   };
-    // });
   };
 
   const amountChangeHandler = (event) => {
+    validateAmount(+event.target.value);
     setAmount(event.target.value);
-    // setExpense((currentState) => {
-    //   return {
-    //     ...currentState,
-    //     amount: event.target.value,
-    //   };
-    // });
   };
 
   const dateChangeHandler = (event) => {
+    validateDate(new Date(event.target.value));
     setDate(event.target.value);
-    // setExpense((currentState) => {
-    //   return {
-    //     ...currentState,
-    //     date: event.target.value,
-    //   };
-    // });
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
     const expenseData = {
       title: title,
-      amount: amount,
+      amount: +amount,
       date: new Date(date),
     };
+    if (
+      !validateTitle(expenseData.title) ||
+      !validateAmount(expenseData.amount) ||
+      !validateDate(expenseData.date)
+    )
+      return;
     if (props.onSave !== undefined) props.onSave(expenseData);
     setTitle("");
     setAmount("");
     setDate("");
   };
 
+  const validateTitle = (titleData) => {
+    let isValid = titleData !== undefined && titleData.trim().length > 0;
+    setTitleValid(isValid);
+    return isValid;
+  };
+
+  const validateAmount = (amountData) => {
+    let isValid =
+      amountData !== undefined && !Number.isNaN(amountData) && amountData > 0;
+    setAmountValid(isValid);
+    return isValid;
+  };
+
+  const validateDate = (dateData) => {
+    let isValid = dateData !== undefined && dateData <= new Date();
+    setDateValid(isValid);
+    return isValid;
+  };
+
   return (
     <form onSubmit={submitHandler}>
       <div className="new-expense__controls">
-        <div className="new-expense__control">
+        <div className={`new-expense__control ${!titleValid && "invalid"}`}>
           <label>Title</label>
           <input type="text" value={title} onChange={titleChangeHandler} />
         </div>
-        <div className="new-expense__control">
+        <div className={`new-expense__control ${!amountValid && "invalid"}`}>
           <label>Amount</label>
           <input
             type="number"
@@ -78,7 +86,7 @@ const ExpenseForm = (props) => {
             onChange={amountChangeHandler}
           />
         </div>
-        <div className="new-expense__control">
+        <div className={`new-expense__control ${!dateValid && "invalid"}`}>
           <label>Date</label>
           <input
             type="date"
