@@ -4,7 +4,14 @@ import "./ExpenseForm.css";
 const ExpenseForm = (props) => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
+  var today = new Date();
+  const [date, setDate] = useState(
+    today.getFullYear() +
+      "-" +
+      String(today.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(today.getDate()).padStart(2, "0")
+  );
   // const [expense, setExpense] = useState({
   //   title: "",
   //   amount: "",
