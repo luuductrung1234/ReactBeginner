@@ -7,14 +7,22 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const newExpenseHandler = (_) => {
-    setIsLoading(true);
-    setIsLoading(false);
+    setIsLoading((currentState) => {
+      console.log("reloading: " + currentState + " -> " + true);
+      return true;
+    });
+  };
+  const finishLoadExpenses = () => {
+    setIsLoading((currentState) => {
+      console.log("reloading: " + currentState + " -> " + false);
+      return false;
+    });
   };
 
   return (
     <div>
       <NewExpense onNewExpense={newExpenseHandler} />
-      <Expenses />
+      <Expenses onLoadingFinished={finishLoadExpenses} />
     </div>
   );
 };
