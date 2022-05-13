@@ -30,6 +30,24 @@ const expenses = [
     amount: 300,
     date: new Date(2022, 4, 10),
   },
+  {
+    id: "e7",
+    title: "TV Sony 4K",
+    amount: 1040,
+    date: new Date(2022, 1, 8),
+  },
+  {
+    id: "e8",
+    title: "House Rent",
+    amount: 500,
+    date: new Date(2022, 0, 30),
+  },
+  {
+    id: "e9",
+    title: "Travel",
+    amount: 780,
+    date: new Date(2022, 2, 18),
+  },
 ];
 
 export const getAllExpenses = (filter) => {
