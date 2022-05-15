@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "../../custom/Button";
-import "./ExpenseForm.css";
+import styles from "./ExpenseForm.module.css";
 
 const ExpenseForm = (props) => {
   const [titleValid, setTitleValid] = useState(true);
@@ -72,12 +72,20 @@ const ExpenseForm = (props) => {
 
   return (
     <form onSubmit={submitHandler}>
-      <div className="new-expense__controls">
-        <div className={`new-expense__control ${!titleValid && "invalid"}`}>
+      <div className={styles["new-expense__controls"]}>
+        <div
+          className={`${styles["new-expense__control"]} ${
+            !titleValid && styles["invalid"]
+          }`}
+        >
           <label>Title</label>
           <input type="text" value={title} onChange={titleChangeHandler} />
         </div>
-        <div className={`new-expense__control ${!amountValid && "invalid"}`}>
+        <div
+          className={`${styles["new-expense__control"]} ${
+            !amountValid && styles["invalid"]
+          }`}
+        >
           <label>Amount</label>
           <input
             type="number"
@@ -87,7 +95,11 @@ const ExpenseForm = (props) => {
             onChange={amountChangeHandler}
           />
         </div>
-        <div className={`new-expense__control ${!dateValid && "invalid"}`}>
+        <div
+          className={`${styles["new-expense__control"]} ${
+            !dateValid && styles["invalid"]
+          }`}
+        >
           <label>Date</label>
           <input
             type="date"
@@ -98,7 +110,7 @@ const ExpenseForm = (props) => {
           />
         </div>
       </div>
-      <div className="new-expense__actions">
+      <div className={styles["new-expense__actions"]}>
         <Button type="button" onClick={props.onCancel}>
           Cancel
         </Button>
