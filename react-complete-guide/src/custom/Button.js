@@ -10,6 +10,10 @@ const Button = styled.button`
   border-radius: 12px;
   margin-right: 1rem;
 
+  @media (min-width: 768px) {
+    width: auto;
+  }
+
   &:hover,
   &:active {
     background-color: #510674;
