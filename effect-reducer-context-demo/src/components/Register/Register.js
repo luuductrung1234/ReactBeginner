@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import Card from "../UI/Card/Card";
-import classes from "./Login.module.css";
+import classes from "./Register.module.css";
 import Button from "../UI/Button/Button";
 
-const Login = (props) => {
+const Register = (props) => {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -42,13 +42,13 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
+    props.onRegister(enteredEmail, enteredPassword);
   };
 
   return (
-    <Card className={classes.login}>
+    <Card className={classes.register}>
       <div className={classes.header}>
-        <h1>Login</h1>
+        <h1>Register</h1>
       </div>
       <form onSubmit={submitHandler}>
         <div
@@ -80,11 +80,8 @@ const Login = (props) => {
           />
         </div>
         <div className={classes.actions}>
-          <Button isRevert={true} onClick={props.onSwitchToRegister}>
-            Register
-          </Button>
           <Button type="submit" className={classes.btn} disabled={!formIsValid}>
-            Login
+            Submit
           </Button>
         </div>
       </form>
@@ -92,4 +89,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default Register;

@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from "react";
 
 import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 import Home from "./components/Home/Home";
 import MainHeader from "./components/MainHeader/MainHeader";
 
 function App() {
+  const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
     if (storedIsLoggedIn === "1") setIsLoggedIn(true);
   }, []);
+
+  const registerHandler = (email, password) => {
+    // just a dummy demo, no need to store registered account
+    setIsRegistering(false);
+  };
+
+  const switchToRegisterHandler = () => {
+    setIsRegistering(true);
+  };
 
   const loginHandler = (email, password) => {
     // We should of course check email and password
@@ -28,8 +39,14 @@ function App() {
     <React.Fragment>
       <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
       <main>
-        {!isLoggedIn && <Login onLogin={loginHandler} />}
-        {isLoggedIn && <Home onLogout={logoutHandler} />}
+        {isRegistering && <Register onRegister={registerHandler} />}
+        {!isRegistering && !isLoggedIn && (
+          <Login
+            onLogin={loginHandler}
+            onSwitchToRegister={switchToRegisterHandler}
+          />
+        )}
+        {!isRegistering && isLoggedIn && <Home onLogout={logoutHandler} />}
       </main>
     </React.Fragment>
   );
