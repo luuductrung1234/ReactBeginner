@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useReducer, useContext } from "react";
 
-import Card from "../UI/Card/Card";
 import classes from "./Register.module.css";
+
+import Card from "../UI/Card/Card";
 import Button from "../UI/Button/Button";
+import Input from "../UI/Input/Input";
+
 import AuthContext from "../../context/auth-context";
 
 const emailReducer = (previousState, action) => {
@@ -100,34 +103,24 @@ const Register = () => {
         <h1>Register</h1>
       </div>
       <form onSubmit={submitHandler}>
-        <div
-          className={`${classes.control} ${
-            !emailState.isValid ? classes.invalid : ""
-          }`}
-        >
-          <label htmlFor="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            value={emailState.value}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
-          />
-        </div>
-        <div
-          className={`${classes.control} ${
-            !passwordState.isValid ? classes.invalid : ""
-          }`}
-        >
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={passwordState.value}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
-          />
-        </div>
+        <Input
+          type="email"
+          id="email"
+          label="E-Mail"
+          value={emailState.value}
+          isValid={emailState.isValid}
+          onChange={emailChangeHandler}
+          onBlur={validateEmailHandler}
+        />
+        <Input
+          type="password"
+          id="password"
+          label="Password"
+          value={passwordState.value}
+          isValid={passwordState.isValid}
+          onChange={passwordChangeHandler}
+          onBlur={validatePasswordHandler}
+        />
         <div className={classes.actions}>
           <Button type="submit" className={classes.btn} disabled={!formIsValid}>
             Submit
