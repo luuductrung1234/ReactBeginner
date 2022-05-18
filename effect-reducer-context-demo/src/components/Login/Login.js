@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../context/auth-context";
 
-const Login = (props) => {
+const Login = () => {
+  const context = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -42,7 +44,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
+    context.onLogin(enteredEmail, enteredPassword);
   };
 
   return (
@@ -80,7 +82,7 @@ const Login = (props) => {
           />
         </div>
         <div className={classes.actions}>
-          <Button isRevert={true} onClick={props.onSwitchToRegister}>
+          <Button isRevert={true} onClick={context.onSwitchToRegister}>
             Register
           </Button>
           <Button type="submit" className={classes.btn} disabled={!formIsValid}>
