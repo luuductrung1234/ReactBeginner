@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 
 import classes from "./Login.module.css";
 
@@ -15,6 +15,9 @@ const Login = () => {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
+
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -47,7 +50,9 @@ const Login = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    context.onLogin(enteredEmail, enteredPassword);
+    if (formIsValid) context.onLogin(enteredEmail, enteredPassword);
+    else if (!emailIsValid) emailInputRef.current.focus();
+    else if (!passwordIsValid) passwordInputRef.current.focus();
   };
 
   return (
@@ -57,6 +62,7 @@ const Login = () => {
       </div>
       <form onSubmit={submitHandler}>
         <Input
+          ref={emailInputRef}
           type="email"
           id="email"
           label="E-Mail"
@@ -66,6 +72,7 @@ const Login = () => {
           onBlur={validateEmailHandler}
         />
         <Input
+          ref={passwordInputRef}
           type="password"
           id="password"
           label="Password"
@@ -78,7 +85,7 @@ const Login = () => {
           <Button isRevert={true} onClick={context.onSwitchToRegister}>
             Register
           </Button>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          <Button type="submit" className={classes.btn}>
             Login
           </Button>
         </div>
