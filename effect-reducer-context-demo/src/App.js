@@ -5,6 +5,8 @@ import Register from "./components/Register/Register";
 import Home from "./components/Home/Home";
 import MainHeader from "./components/MainHeader/MainHeader";
 
+import AuthContext from "./context/auth-context";
+
 function App() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,8 +38,8 @@ function App() {
   };
 
   return (
-    <React.Fragment>
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+    <AuthContext.Provider value={{ isLoggedIn: isLoggedIn }}>
+      <MainHeader onLogout={logoutHandler} />
       <main>
         {isRegistering && <Register onRegister={registerHandler} />}
         {!isRegistering && !isLoggedIn && (
@@ -48,7 +50,7 @@ function App() {
         )}
         {!isRegistering && isLoggedIn && <Home onLogout={logoutHandler} />}
       </main>
-    </React.Fragment>
+    </AuthContext.Provider>
   );
 }
 
